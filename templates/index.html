@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini AI Image Content Generator</title>
+</head>
+<body>
+    <h1>Upload an Image & Get AI-Generated Content</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="image" required>
+        <input type="number" name="word_count" placeholder="Enter word count" required>
+        <button type="submit">Generate Content</button>
+    </form>
+    <h3>Generated Content:</h3>
+    <p id="result"></p>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let formData = new FormData(this);
+
+            fetch('/generate', { method: 'POST', body: formData })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = data.generated_content || 'Error generating content.';
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
